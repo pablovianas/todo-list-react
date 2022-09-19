@@ -1,25 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import * as C from './App.styles';
+import {Item} from './types/item'
+import { ListItem } from './components/ListItem';
+import { Area } from './components/Area';
+import { AddArea } from './components/AddArea';
 
-function App() {
+
+const App = () =>  {
+  const [list, setList] = useState<Item[]>([]);
+
+  const handleAddTask = (taskName: string) => {
+    let newList = [...list];
+    newList.push({
+      id: list.length + 1,
+      name: taskName,
+      done: false,
+    });
+    setList(newList);
+    localStorage.setItem('task', JSON.stringify(newList));
+  }
+  
+   const handleChange = (id: number, done: boolean) => { 
+    let newList = [...list];
+    newList.forEach((item, index)=>{
+      if (newList[index].id === id){
+        newList[index].done = done;
+      }
+    })
+    setList(newList);
+    localStorage.setItem("task", JSON.stringify(newList));
+  }
+
+  useEffect(() => {
+    const storedList = localStorage.getItem('task')
+    let output = storedList !== null ? JSON.parse(storedList) : ''
+    setList(output);
+  },[]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <C.Container>
+      <Area>
+        <>
+          <C.Header>Todo List</C.Header>
+          <AddArea onEnter={handleAddTask}></AddArea>
+          {Array.isArray(list) ? list?.map((item, index) => {
+              return (
+                <ListItem
+                  key={index}
+                  item={item}
+                  onChange={handleChange}
+                ></ListItem>
+              );
+          }):null}
+        </>
+      </Area>
+    </C.Container>
   );
 }
 
