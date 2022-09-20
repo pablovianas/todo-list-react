@@ -9,7 +9,10 @@ export const Container = styled.div`
     margin-block: 20px;
 
     .image{
-        margin-right: 5px ;
+        margin-right: 15px ;
+        background: #fff;
+        border: none;
+        border-radius: 5px;
     }
     input{
         border: 0;

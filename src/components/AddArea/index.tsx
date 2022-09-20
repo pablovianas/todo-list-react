@@ -14,16 +14,19 @@ export const AddArea = ({onEnter}: Props) => {
             setInputText('');
         }
     }
+    const handleInput = () => {
+      onEnter(inputText)
+    }
   
     return (
       <C.Container>
-        <div className="image">➕</div>
+        <button className="image" onClick={handleInput}>➕</button>
         <input
           type="text"
           placeholder="Add a task.."
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          onKeyUp={handleKeyUp} 
+          onKeyUp={handleKeyUp}
         />
       </C.Container>
     );
