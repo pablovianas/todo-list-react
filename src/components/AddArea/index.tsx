@@ -15,7 +15,9 @@ export const AddArea = ({onEnter}: Props) => {
         }
     }
     const handleInput = () => {
-      onEnter(inputText)
+      if(inputText !== ''){
+        onEnter(inputText)
+      }
     }
   
     return (
